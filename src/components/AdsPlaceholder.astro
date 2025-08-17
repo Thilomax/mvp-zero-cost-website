@@ -12,16 +12,14 @@ const adsClient = String(import.meta.env.PUBLIC_ADSENSE_CLIENT ?? '');
 
 {enableAds && adsClient ? (
   <>
-    {/* AdSense loader (will be blocked by CSP until you allowlist if you keep a strict CSP) */}
     <script
       async
       src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsClient}`}
       crossOrigin="anonymous"
     ></script>
 
-    {/* Simple ad slot placeholder – replace with your own ad unit if desired */}
     <div class="my-6 p-4 border rounded bg-neutral-light text-sm text-neutral-dark">
-      Ads enabled. (AdSense client: {adsClient}) Replace this with your ad unit markup.
+      Ads enabled (AdSense client: {adsClient}). Replace this with your ad unit markup.
     </div>
   </>
 ) : (
