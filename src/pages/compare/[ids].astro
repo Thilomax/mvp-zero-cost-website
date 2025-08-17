@@ -3,6 +3,20 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import AdsPlaceholder from '../../components/AdsPlaceholder.astro';
 import cards from '../../data/cards.json';
 
+const presetPairs = [
+  ['bank-norwegian-visa', 'tf-bank-mastercard'],
+  ['morrow-bank-mastercard', 'instapay-mastercard'],
+  ['eco-green-card', 'cashback-pro-card'],
+  ['student-start-mastercard', 'young-saver-visa'],
+  ['premium-travel-visa', 'all-round-visa']
+];
+
+export function getStaticPaths() {
+  return presetPairs.map(([a, b]) => ({
+    params: { ids: `${a}-vs-${b}` }
+  }));
+}
+
 const { ids } = Astro.params;
 // Expect slug format "card1-vs-card2"
 const parts = ids.split('-vs-');
