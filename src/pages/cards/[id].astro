@@ -8,6 +8,13 @@ const card = cards.find((c) => c.id === id);
 if (!card) {
   throw new Error(`Card with id '${id}' not found`);
 }
+export function getStaticPaths() {
+  // Build one page per card from the JSON data
+  return cards.map((card) => ({
+    params: { id: card.id }
+  }));
+}
+
 
 ---
 <BaseLayout title={`${card.name} – Review & Details`} description={`Learn about ${card.name}: rewards, fees, interest rates and more.`} canonical={`https://example.pages.dev/cards/${card.id}`} ogImage="/og-${card.id}.jpg">
