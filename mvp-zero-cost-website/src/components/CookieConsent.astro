@@ -1,0 +1,142 @@
+---
+/**
+ * Cookie consent banner implemented using the open‑source vanilla-cookieconsent
+ * library (Orestbida). This component injects the CSS and JS from the CDN
+ * and configures a GDPR compliant banner with English and Norwegian text.
+ */
+---
+<div>
+  <script>
+    const runConsent = () => {
+      if (window.CookieConsent) {
+        const cc = window.CookieConsent;
+        cc.run({
+          guiOptions: {
+            consentModal: {
+              layout: 'cloud',
+              position: 'bottom center',
+            },
+            preferencesModal: {
+              layout: 'box',
+              position: 'right',
+            },
+          },
+          categories: {
+            necessary: {
+              enabled: true,
+            },
+            analytics: {
+              enabled: false,
+            },
+            marketing: {
+              enabled: false,
+            },
+          },
+          language: navigator.language.startsWith('no') ? 'nb' : 'en',
+          languages: {
+            en: {
+              consentModal: {
+                title: 'We use cookies',
+                description: 'We use cookies to ensure the basic functionalities of the website and to enhance your online experience. You can choose for each category to opt‑in/out whenever you want.',
+                primaryBtn: {
+                  text: 'Accept all',
+                  role: 'accept_all',
+                },
+                secondaryBtn: {
+                  text: 'Preferences',
+                  role: 'settings',
+                },
+              },
+              preferencesModal: {
+                title: 'Cookie preferences',
+                description: 'Select which types of cookies you allow us to use.',
+                savePreferencesBtn: 'Save preferences',
+                sections: [
+                  {
+                    title: 'Essential cookies',
+                    description: 'These cookies are necessary for the website to function and cannot be disabled.',
+                    category: 'necessary',
+                  },
+                  {
+                    title: 'Analytics cookies',
+                    description: 'These cookies help us understand how our website is being used.',
+                    category: 'analytics',
+                    toggle: {
+                      value: 'analytics',
+                      enabled: false,
+                    },
+                  },
+                  {
+                    title: 'Marketing cookies',
+                    description: 'These cookies are used to show advertising.',
+                    category: 'marketing',
+                    toggle: {
+                      value: 'marketing',
+                      enabled: false,
+                    },
+                  },
+                ],
+              },
+            },
+            nb: {
+              consentModal: {
+                title: 'Vi bruker informasjonskapsler',
+                description: 'Vi bruker informasjonskapsler for å sikre nettstedets grunnleggende funksjonalitet og forbedre din brukeropplevelse. Du kan velge for hver kategori om du vil tillate dem.',
+                primaryBtn: {
+                  text: 'Aksepter alle',
+                  role: 'accept_all',
+                },
+                secondaryBtn: {
+                  text: 'Innstillinger',
+                  role: 'settings',
+                },
+              },
+              preferencesModal: {
+                title: 'Innstillinger for informasjonskapsler',
+                description: 'Velg hvilke typer informasjonskapsler du vil tillate.',
+                savePreferencesBtn: 'Lagre valg',
+                sections: [
+                  {
+                    title: 'Nødvendige informasjonskapsler',
+                    description: 'Disse informasjonskapslene er nødvendige for at nettstedet skal fungere og kan ikke deaktiveres.',
+                    category: 'necessary',
+                  },
+                  {
+                    title: 'Analyse-informasjonskapsler',
+                    description: 'Disse hjelper oss å forstå hvordan nettstedet brukes.',
+                    category: 'analytics',
+                    toggle: {
+                      value: 'analytics',
+                      enabled: false,
+                    },
+                  },
+                  {
+                    title: 'Markedsførings-informasjonskapsler',
+                    description: 'Disse brukes til å vise annonser.',
+                    category: 'marketing',
+                    toggle: {
+                      value: 'marketing',
+                      enabled: false,
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        });
+      }
+    };
+    // Load the library from CDN and initialise once loaded.
+    if (typeof window !== 'undefined') {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@2.8.2/dist/cookieconsent.js';
+      script.defer = true;
+      script.onload = runConsent;
+      document.head.appendChild(script);
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@2.8.2/dist/cookieconsent.css';
+      document.head.appendChild(link);
+    }
+  </script>
+</div>

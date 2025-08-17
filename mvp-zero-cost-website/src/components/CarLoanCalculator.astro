@@ -1,0 +1,50 @@
+---
+/**
+ * Simple car loan calculator component. Users can input the vehicle price,
+ * down payment, annual interest rate and loan term in years. The monthly
+ * payment is calculated using the standard annuity formula on the financed
+ * amount (price minus down payment). All calculations happen in the browser
+ * via an inline script, so no personal data ever leaves the user's device.
+ */
+---
+<div class="p-4 bg-white rounded shadow">
+  <h2 class="text-xl font-semibold mb-2">Car Loan Calculator</h2>
+  <form id="carloan-form" class="space-y-4">
+    <div>
+      <label for="car-price" class="block text-sm font-medium mb-1">Car price (kr)</label>
+      <input id="car-price" type="number" min="0" step="1" value="300000" class="w-full border border-neutral-dark p-2 rounded" />
+    </div>
+    <div>
+      <label for="car-down" class="block text-sm font-medium mb-1">Down payment (kr)</label>
+      <input id="car-down" type="number" min="0" step="1" value="50000" class="w-full border border-neutral-dark p-2 rounded" />
+    </div>
+    <div>
+      <label for="car-rate" class="block text-sm font-medium mb-1">Annual interest rate (%)</label>
+      <input id="car-rate" type="number" min="0" step="0.1" value="5" class="w-full border border-neutral-dark p-2 rounded" />
+    </div>
+    <div>
+      <label for="car-years" class="block text-sm font-medium mb-1">Term (years)</label>
+      <input id="car-years" type="number" min="1" max="10" value="5" class="w-full border border-neutral-dark p-2 rounded" />
+    </div>
+    <button type="button" id="carloan-calc-btn" class="px-4 py-2 bg-primary text-neutral-light rounded hover:bg-primary-light">Calculate</button>
+  </form>
+  <div id="carloan-result" class="mt-4 text-sm"></div>
+  <script>
+    const carForm = document.getElementById('carloan-form');
+    const carResult = document.getElementById('carloan-result');
+    document.getElementById('carloan-calc-btn').addEventListener('click', () => {
+      const price = parseFloat(carForm.querySelector('#car-price').value);
+      const down = parseFloat(carForm.querySelector('#car-down').value);
+      const financed = Math.max(price - down, 0);
+      const rate = parseFloat(carForm.querySelector('#car-rate').value) / 100 / 12;
+      const years = parseInt(carForm.querySelector('#car-years').value);
+      const n = years * 12;
+      // Annuity formula: A = P * r * (1 + r)^n / [(1 + r)^n - 1]
+      const numerator = financed * rate * Math.pow(1 + rate, n);
+      const denominator = Math.pow(1 + rate, n) - 1;
+      const monthly = denominator === 0 ? 0 : numerator / denominator;
+      const financedStr = financed.toFixed(2);
+      carResult.textContent = `Financed amount: ${financedStr} kr | Estimated monthly payment: ${monthly.toFixed(2)} kr`;
+    });
+  </script>
+</div>

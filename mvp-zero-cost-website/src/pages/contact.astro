@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Contact Us – Norway Card Advisor" description="Get in touch with the Norway Card Advisor team.">
+  <section class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold mb-4">Contact Us</h1>
+    <p class="mb-6">We’d love to hear from you. Whether you have feedback, partnership requests or press inquiries, please use the form below or send us an email directly.</p>
+    <form method="POST" action="mailto:info@example.com" class="grid grid-cols-1 gap-4">
+      <div>
+        <label for="name" class="block text-sm font-medium mb-1">Name</label>
+        <input type="text" id="name" name="name" required class="w-full border border-neutral-dark p-2 rounded" />
+      </div>
+      <div>
+        <label for="email" class="block text-sm font-medium mb-1">Email</label>
+        <input type="email" id="email" name="email" required class="w-full border border-neutral-dark p-2 rounded" />
+      </div>
+      <div>
+        <label for="message" class="block text-sm font-medium mb-1">Message</label>
+        <textarea id="message" name="message" rows="6" required class="w-full border border-neutral-dark p-2 rounded"></textarea>
+      </div>
+      <button type="submit" class="px-6 py-2 bg-primary text-neutral-light rounded hover:bg-primary-light">Send Message</button>
+    </form>
+    <p class="text-xs text-neutral-dark mt-4">By sending us a message you agree that we may process the data you provide to respond to your enquiry. See our <a href="/privacy" class="text-accent underline">privacy policy</a> for more details.</p>
+  </section>
+</BaseLayout>

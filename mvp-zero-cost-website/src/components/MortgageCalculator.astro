@@ -1,0 +1,42 @@
+---
+/**
+ * Simple mortgage calculator component. Users can input loan amount, annual
+ * interest rate and loan term in years. The monthly payment is calculated
+ * using the standard annuity formula and displayed below the form. All
+ * calculations happen in the browser via an inline script.
+ */
+---
+<div class="p-4 bg-white rounded shadow">
+  <h2 class="text-xl font-semibold mb-2">Mortgage Calculator</h2>
+  <form id="mortgage-form" class="space-y-4">
+    <div>
+      <label for="mortgage-amount" class="block text-sm font-medium mb-1">Loan amount (kr)</label>
+      <input id="mortgage-amount" type="number" min="0" step="1" value="3000000" class="w-full border border-neutral-dark p-2 rounded" />
+    </div>
+    <div>
+      <label for="mortgage-rate" class="block text-sm font-medium mb-1">Annual interest rate (%)</label>
+      <input id="mortgage-rate" type="number" min="0" step="0.1" value="4" class="w-full border border-neutral-dark p-2 rounded" />
+    </div>
+    <div>
+      <label for="mortgage-years" class="block text-sm font-medium mb-1">Term (years)</label>
+      <input id="mortgage-years" type="number" min="1" max="40" value="25" class="w-full border border-neutral-dark p-2 rounded" />
+    </div>
+    <button type="button" id="mortgage-calc-btn" class="px-4 py-2 bg-primary text-neutral-light rounded hover:bg-primary-light">Calculate</button>
+  </form>
+  <div id="mortgage-result" class="mt-4 text-sm"></div>
+  <script>
+    const form = document.getElementById('mortgage-form');
+    const result = document.getElementById('mortgage-result');
+    document.getElementById('mortgage-calc-btn').addEventListener('click', () => {
+      const amount = parseFloat(form.querySelector('#mortgage-amount').value);
+      const rate = parseFloat(form.querySelector('#mortgage-rate').value) / 100 / 12;
+      const years = parseInt(form.querySelector('#mortgage-years').value);
+      const n = years * 12;
+      // Annuity formula: A = P * r * (1 + r)^n / [(1 + r)^n - 1]
+      const numerator = amount * rate * Math.pow(1 + rate, n);
+      const denominator = Math.pow(1 + rate, n) - 1;
+      const monthly = denominator === 0 ? 0 : numerator / denominator;
+      result.textContent = `Estimated monthly payment: ${monthly.toFixed(2)} kr`;
+    });
+  </script>
+</div>

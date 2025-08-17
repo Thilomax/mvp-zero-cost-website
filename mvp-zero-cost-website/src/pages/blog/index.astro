@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import type { MarkdownInstance } from 'astro';
+
+const postImports = import.meta.glob('../../content/blog/*.md');
+const posts: MarkdownInstance<any>[] = await Promise.all(
+  Object.values(postImports).map((fn) => fn())
+);
+// Sort posts by publication date (newest first)
+posts.sort((a, b) => new Date(b.frontmatter.pubDate).getTime() - new Date(a.frontmatter.pubDate).getTime());
+---
+<BaseLayout title="Guides & Tips – Norway Card Advisor" description="Read our latest guides, comparisons and calculators to improve your finances in Norway.">
+  <section class="max-w-6xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold mb-6">Guides &amp; Tips</h1>
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      {posts.map((post) => (
+        <article class="bg-white rounded shadow-md p-4 flex flex-col justify-between" key={post.url}>
+          <header>
+            <h2 class="text-xl font-semibold mb-2">
+              <a href={post.url} class="hover:text-accent-dark">{post.frontmatter.title}</a>
+            </h2>
+            <p class="text-xs text-neutral-dark mb-2">{new Date(post.frontmatter.pubDate).toLocaleDateString('en-US')}</p>
+            <p class="text-sm text-neutral-dark mb-4">{post.frontmatter.description}</p>
+          </header>
+          <div class="mt-auto">
+            <a href={post.url} class="text-accent font-medium">Read more →</a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

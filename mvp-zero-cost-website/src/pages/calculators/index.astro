@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MortgageCalculator from '../../components/MortgageCalculator.astro';
+import CarLoanCalculator from '../../components/CarLoanCalculator.astro';
+
+---
+<BaseLayout title="Loan Calculators | Compare & Plan" description="Use our free mortgage and car loan calculators to estimate monthly payments. Understand your finances before applying for a loan.">
+  <h1 class="text-3xl font-bold mb-4">Loan & Finance Calculators</h1>
+  <p class="mb-6">Planning a major purchase? Use our calculators to estimate your monthly payments for mortgages or car loans. These tools run entirely in your browser and don't collect personal data.</p>
+  <div class="space-y-10">
+    <section>
+      <h2 class="text-2xl font-semibold mb-3">Mortgage Calculator</h2>
+      <MortgageCalculator />
+    </section>
+    <section>
+      <h2 class="text-2xl font-semibold mb-3">Car Loan Calculator</h2>
+      <CarLoanCalculator />
+    </section>
+  </div>
+</BaseLayout>

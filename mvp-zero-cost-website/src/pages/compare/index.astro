@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import cards from '../../data/cards.json';
+
+// Create a few preset comparisons (first 3 pairs) for demonstration
+const pairs = [
+  { a: 'bank-norwegian-visa', b: 'tf-bank-mastercard' },
+  { a: 'morrow-bank-mastercard', b: 'instapay-mastercard' },
+  { a: 'eco-green-card', b: 'cashback-pro-card' },
+];
+
+function getCard(id) {
+  return cards.find((c) => c.id === id);
+}
+---
+<BaseLayout title="Compare Credit Cards – Norway Card Advisor" description="Compare two credit cards side by side to find the best one for you.">
+  <section class="max-w-5xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold mb-6">Compare Credit Cards</h1>
+    <p class="mb-4">Select two cards to compare them side by side. Below are some popular comparisons:</p>
+    <ul class="space-y-4">
+      {pairs.map(({ a, b }) => (
+        <li key={`${a}-${b}`} class="bg-white p-4 rounded shadow flex justify-between items-center">
+          <span>{getCard(a).name} vs {getCard(b).name}</span>
+          <a href={`/compare/${a}-vs-${b}`} class="text-accent font-medium">Compare →</a>
+        </li>
+      ))}
+    </ul>
+    <p class="mt-8 text-sm">We’re adding more comparisons soon. Want to see a specific comparison? <a href="/contact" class="text-accent underline">Let us know</a>.</p>
+  </section>
+</BaseLayout>

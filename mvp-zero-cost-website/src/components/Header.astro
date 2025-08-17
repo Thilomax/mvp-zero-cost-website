@@ -1,0 +1,30 @@
+---
+/**
+ * Site header with navigation links. The header sticks to the top of the page and
+ * adapts for mobile screens using flexbox. A language switcher is provided
+ * as a placeholder; the translation itself is handled in code via i18n.
+ */
+---
+<nav class="bg-primary text-white shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16 items-center">
+      <a href="/" class="flex items-center space-x-2">
+        <img src="/logo.png" alt="Site logo" class="h-8 w-8" />
+        <span class="font-bold text-lg">Norway Card Advisor</span>
+      </a>
+      <div class="hidden md:flex space-x-6">
+        <a href="/" class="hover:text-accent-light transition-colors">Home</a>
+        <a href="/compare" class="hover:text-accent-light transition-colors">Compare Cards</a>
+        <a href="/calculators" class="hover:text-accent-light transition-colors">Calculators</a>
+        <a href="/blog" class="hover:text-accent-light transition-colors">Guides</a>
+        <a href="/contact" class="hover:text-accent-light transition-colors">Contact</a>
+      </div>
+      <!-- Language switcher placeholder -->
+      <div class="flex items-center space-x-2">
+        <a href="#" aria-label="Switch to Norwegian" class="text-sm hover:text-accent-light">EN</a>
+        <span class="text-sm">|</span>
+        <a href="#" aria-label="Switch to English" class="text-sm hover:text-accent-light">NO</a>
+      </div>
+    </div>
+  </div>
+</nav>

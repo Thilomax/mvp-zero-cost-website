@@ -1,0 +1,77 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CookieConsent from '../components/CookieConsent.astro';
+
+export interface Props {
+  /**
+   * Title of the page. Appears in the <title> tag and OG tags.
+   */
+  title: string;
+  /**
+   * Meta description. Defaults to a generic description of the site.
+   */
+  description?: string;
+  /**
+   * HTML language attribute. Defaults to English.
+   */
+  lang?: string;
+  /**
+   * Canonical URL for the page. Should be an absolute URL.
+   */
+  canonical?: string;
+  /**
+   * URL to the Open Graph image. Should live in the public folder.
+   */
+  ogImage?: string;
+}
+
+const {
+  title,
+  description = 'Norway Card Advisor provides unbiased credit card comparisons, financial calculators and guides for residents and expats in Norway.',
+  lang = 'en',
+  canonical = 'https://example.com',
+  ogImage = '/og-default.png',
+} = Astro.props as Props;
+---
+<!DOCTYPE html>
+<html lang={lang} class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonical} />
+    <!-- Icons for favicon and Apple touch -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64x64.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="/apple-touch-icon.png" />
+    <!-- Schema.org organisation markup for SEO -->
+    <script type="application/ld+json">
+      {JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: 'Norway Card Advisor',
+        url: canonical,
+        logo: '/logo.png',
+      })}
+    </script>
+    <!-- Cloudflare Web Analytics placeholder. Replace the token below after deployment. -->
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{\"token\":\"YOUR_CLOUDFLARE_ANALYTICS_TOKEN\"}"></script>
+    <!-- Cookie Consent styles will be loaded by the component -->
+  </head>
+  <body class="bg-neutral-light text-primary-dark min-h-screen flex flex-col font-sans">
+    <Header />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+    <CookieConsent />
+  </body>
+</html>
