@@ -3,81 +3,64 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import AdsPlaceholder from '../../components/AdsPlaceholder.astro';
 import cards from '../../data/cards.json';
 
+// Pre-generate a handful of comparison pages (add more pairs anytime)
 const presetPairs = [
   ['bank-norwegian-visa', 'tf-bank-mastercard'],
   ['morrow-bank-mastercard', 'instapay-mastercard'],
   ['eco-green-card', 'cashback-pro-card'],
   ['student-start-mastercard', 'young-saver-visa'],
-  ['premium-travel-visa', 'all-round-visa']
+  ['premium-travel-visa', 'all-round-visa'],
 ];
 
 export function getStaticPaths() {
   return presetPairs.map(([a, b]) => ({
-    params: { ids: `${a}-vs-${b}` }
+    params: { ids: `${a}-vs-${b}` },
   }));
 }
 
 const { ids } = Astro.params;
-// Expect slug format "card1-vs-card2"
 const parts = ids.split('-vs-');
 if (parts.length !== 2) {
   throw new Error(`Invalid comparison slug: ${ids}`);
 }
-const cardA = cards.find((c) => c.id === parts[0]);
-const cardB = cards.find((c) => c.id === parts[1]);
-if (!cardA || !cardB) {
-  throw new Error('One or both cards not found');
+const [aId, bId] = parts;
+const a = cards.find((c) => c.id === aId);
+const b = cards.find((c) => c.id === bId);
+if (!a || !b) {
+  throw new Error(`One or both cards not found: ${aId}, ${bId}`);
 }
 ---
-<BaseLayout title={`${cardA.name} vs ${cardB.name}`} description={`Compare ${cardA.name} and ${cardB.name} side by side to choose the best card for your needs.`} canonical={`https://example.pages.dev/compare/${ids}`}>
-  <section class="max-w-5xl mx-auto px-4 py-12">
-    <h1 class="text-3xl font-bold mb-6">{cardA.name} vs {cardB.name}</h1>
-    <div class="overflow-x-auto">
-      <table class="min-w-full text-sm mb-8">
+
+<BaseLayout title={`Compare ${a.name} vs ${b.name}`} description={`Side-by-side comparison of ${a.name} and ${b.name} for Norway.`}>
+  <section class="max-w-5xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6">Compare: {a.name} vs {b.name}</h1>
+
+    <div class="overflow-x-auto bg-white rounded shadow">
+      <table class="w-full text-left">
         <thead>
-          <tr>
-            <th class="p-2">Feature</th>
-            <th class="p-2 bg-neutral-light">{cardA.name}</th>
-            <th class="p-2 bg-neutral-light">{cardB.name}</th>
+          <tr class="bg-neutral-light">
+            <th class="p-3">Feature</th>
+            <th class="p-3">{a.name}</th>
+            <th class="p-3">{b.name}</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="border-b">
-            <th class="p-2 text-left">Annual fee</th>
-            <td class="p-2">{cardA.annual_fee === 0 ? '0 kr' : `${cardA.annual_fee} kr`}</td>
-            <td class="p-2">{cardB.annual_fee === 0 ? '0 kr' : `${cardB.annual_fee} kr`}</td>
-          </tr>
-          <tr class="border-b">
-            <th class="p-2 text-left">Interest rate</th>
-            <td class="p-2">{cardA.interest_rate}%</td>
-            <td class="p-2">{cardB.interest_rate}%</td>
-          </tr>
-          <tr class="border-b">
-            <th class="p-2 text-left">Rewards</th>
-            <td class="p-2">{cardA.rewards}</td>
-            <td class="p-2">{cardB.rewards}</td>
-          </tr>
-          <tr class="border-b">
-            <th class="p-2 text-left">Insurance</th>
-            <td class="p-2">{cardA.insurance ? 'Yes' : 'No'}</td>
-            <td class="p-2">{cardB.insurance ? 'Yes' : 'No'}</td>
-          </tr>
+          <tr><td class="p-3 font-medium">Issuer</td><td class="p-3">{a.issuer}</td><td class="p-3">{b.issuer}</td></tr>
+          <tr><td class="p-3 font-medium">Annual fee</td><td class="p-3">{a.annual_fee === 0 ? '0 NOK' : `${a.annual_fee} NOK`}</td><td class="p-3">{b.annual_fee === 0 ? '0 NOK' : `${b.annual_fee} NOK`}</td></tr>
+          <tr><td class="p-3 font-medium">Interest</td><td class="p-3">{a.interest_rate}%</td><td class="p-3">{b.interest_rate}%</td></tr>
+          <tr><td class="p-3 font-medium">Rewards</td><td class="p-3">{a.rewards}</td><td class="p-3">{b.rewards}</td></tr>
+          <tr><td class="p-3 font-medium">Travel insurance</td><td class="p-3">{a.insurance ? 'Yes' : 'No'}</td><td class="p-3">{b.insurance ? 'Yes' : 'No'}</td></tr>
         </tbody>
       </table>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div class="p-4 bg-white rounded shadow">
-        <h2 class="font-semibold mb-2">{cardA.name}</h2>
-        <p class="mb-2 text-sm">{cardA.description}</p>
-        <a href={cardA.affiliate_url} class="inline-block px-4 py-2 bg-accent text-white rounded hover:bg-accent-dark" rel="nofollow noopener" target="_blank" data-affiliate="true">Apply {cardA.name}</a>
-      </div>
-      <div class="p-4 bg-white rounded shadow">
-        <h2 class="font-semibold mb-2">{cardB.name}</h2>
-        <p class="mb-2 text-sm">{cardB.description}</p>
-        <a href={cardB.affiliate_url} class="inline-block px-4 py-2 bg-accent text-white rounded hover:bg-accent-dark" rel="nofollow noopener" target="_blank" data-affiliate="true">Apply {cardB.name}</a>
-      </div>
+
+    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <a href={a.affiliate_url} rel="nofollow sponsored" class="block bg-accent text-white px-4 py-2 rounded text-center">Apply for {a.name}</a>
+      <a href={b.affiliate_url} rel="nofollow sponsored" class="block bg-accent text-white px-4 py-2 rounded text-center">Apply for {b.name}</a>
     </div>
-    <p class="text-xs text-neutral-dark mt-4">Disclosure: We may earn a commission if you apply for these cards via our links.</p>
+
+    <div class="mt-8">
+      <AdsPlaceholder />
+    </div>
   </section>
-  <AdsPlaceholder />
 </BaseLayout>
